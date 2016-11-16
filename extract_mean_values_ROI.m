@@ -68,4 +68,4 @@ else
 end
 ylabel('Percent Signal Change');
 
-xSPM.roi
+display(xSPM.roi)

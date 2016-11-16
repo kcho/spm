@@ -9,6 +9,44 @@ Lean = {'JTS', 'JJY', 'MAS', 'LKB', 'KJW', 'KOS', 'KTO', 'KSO', 'YSS', 'CDK', 'Y
 
 preprocDir = '/home/kangik/2016_CHJ/GLP_1/IMG_DATA/dpabi/FunImgARWS';
 
-first_level_analysis(subjects, treatment, preprocDir)
-second_level_analysis(subjects, treatment, Obese, Lean)
-results
+%first_level_analysis(subjects, treatment, preprocDir)
+%second_level_analysis(subjects, treatment, Obese, Lean)
+
+contrastList = {'01','02','03','04','05','06','07','08','09','10','11'};
+%contrastList = {'05','06','07','08','09','10','11'};
+
+roiDir = '/home/kangik/2016_CHJ/GLP_1/IMG_DATA/ROIs/'
+roiList = {'findlab_lh_DLPFC_thrp_90.nii','findlab_rh_DLPFC_thrp_90.nii','Harvard_lh_accumbens_thrp_70_flirt.nii','Harvard_rh_accumbens_thrp_70_flirt.nii','hypothalamus_10mm_0-10-7.nii','MNI_Amygdala_L.nii','MNI_Amygdala_R.nii','MNI_Caudate_L.nii','MNI_Caudate_R.nii','MNI_Cingulum_Ant_L.nii','MNI_Cingulum_Ant_R.nii','MNI_Frontal_Orb.nii','MNI_Frontal_Orb_L.nii','MNI_Frontal_Orb_R.nii','MNI_Fusiform_L.nii','MNI_Fusiform_R.nii','MNI_Insula_L.nii','MNI_Insula_R.nii','MNI_Putamen_L.nii','MNI_Putamen_R.nii'};
+
+%comparisonName = {'GE_', 'ME_', 'Int_'};
+comparisonName = {'GE_', 'ME_'};
+
+significance = struct()
+for contrastNum=1:length(contrastList)
+    contrast=contrastList(contrastNum);
+    for roiNum=1:length(roiList)
+        ROI=roiList(roiNum);
+        ROILoc = strcat(roiDir, ROI)
+        for comparisonNum=1:length(comparisonName)
+            display('====================================');
+            display(contrast{1});
+            display(ROI{1});
+            display(comparisonName(comparisonNum));
+            display('====================================');
+            [hReg, SPM, xSPM] = results(contrast{1}, comparisonNum, ROILoc{1});
+            TabDat = spm_list('List',xSPM,hReg);
+            if ~isempty(xSPM.XYZ)
+                display('************************************');
+                spm_list('TxtList', TabDat)
+
+                significance.contrast = contrast
+                significance.contrast.roi = ROI
+                significance.contrast.roi.comparison
+                significance.contrasts = 
+                %extract_mean_values_ROI(SPM, xSPM)
+            end
+            clear SPM
+            clear xSPM
+        end
+    end
+end

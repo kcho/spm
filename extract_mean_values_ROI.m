@@ -1,14 +1,14 @@
-function extract_mean_values_ROI(SPM, ROI)
+function extract_mean_values_ROI(SPM, xSPM)
 
+ROI = xSPM.XYZ;
 
 Obese = {'HMS', 'NSW', 'HJC', 'JHS', 'CSJ', 'CDJ', 'KTH', 'SHJ', 'KDS', 'LJS', 'KHS', 'KYH', 'KYC', 'JJR'};  %KJS removed;
 Lean = {'JTS', 'JJY', 'MAS', 'LKB', 'KJW', 'KOS', 'KTO', 'KSO', 'YSS', 'CDK', 'YOI', 'SJS', 'PJO', 'CDH', 'LKH'};
 
+averages = mean(spm_get_data(SPM.xY.P, ROI), 2);
 
-averages = mean(spm_get_data(SPM.xY.P, ROI), 2)
-
-obese_means = []
-lean_means = []
+obese_means = [];
+lean_means = [];
 
 for i=1:length(SPM.xY.P)
     subjectFileLoc = SPM.xY.P{i};
@@ -35,7 +35,7 @@ figure
 hold on
 y = [mean(obese_means); mean(lean_means)];
 x = [1;2];
-y_std = [std(obese_means); std(lean_means)]
+y_std = [std(obese_means); std(lean_means)];
 h = bar(x,y);
 errorbar(y,y_std,'.');
 
@@ -44,4 +44,4 @@ errorbar(y,y_std,'.');
 ax = gca;
 ax.XTick = [1,2];
 ax.XTickLabel = {'Obese','Lean'};
-ylabel('Percent Signal Change, %')
+ylabel('Percent Signal Change');

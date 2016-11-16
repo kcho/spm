@@ -1,4 +1,6 @@
+% function xSPM = results(contrast, comparisonNum, ROI)
 function [hreg, SPM, xSPM] = results(contrast, comparisonNum, ROI)
+
 % contrast must be a 'str' eg contrast='01'
 % comparisonNum
 % 1 = group effect
@@ -7,18 +9,17 @@ function [hreg, SPM, xSPM] = results(contrast, comparisonNum, ROI)
 
 secondLevelDir = '/home/kangik/2016_CHJ/GLP_1/IMG_DATA/secondLevel';
 
-contList={'01' '02' '03' '04' '05' '06' '07' '08' '09' '10' '11'};
 contNameList = {'high_calorie > low_calorie' 'high calorie > neutral' 'low calorie > neutral' 'high_low_food > neutral' 'low calorie > high calorie' 'neutral > high calorie' 'neutral > low calorie' 'high_calorie > baseline' 'low calorie > baseline' 'baseline > high calorie' 'baseline > low calorie'};
 
 
-roiList = '/home/kangik/2016_CHJ/GLP_1/IMG_DATA/ROIs/hypothalamus_10mm_0-10-7.nii'
+comparisonName = {'GE_', 'ME_', 'Int_'};
 
 if ~exist('ROI')
     ROI='/home/kangik/Downloads/spm12/tpm/mask_ICV.nii'
 end
 
-comparisonName = {'GE_', 'ME_', 'Int_'};
-clear [xSPM SPM]
+clear xSPM 
+clear SPM
 %spmMat = strcat('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/secondLevel/',contList(contNum),'/SPM.mat')
 matFileName = sprintf('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/secondLevel/%s/SPM.mat', contrast);
 load(matFileName)
@@ -41,6 +42,7 @@ if comparisonNum == 3
     xSPM.u        = 0.05;
     %xSPM.u        = 15.8427;
 else
+    xSPM.STAT = 'T';
     xSPM.u        = 0.05;
 end
 
@@ -49,6 +51,7 @@ xSPM.thresDesc = 'FWE';
 xSPM.roi      = ROI;
 xSPM.units = {'mm'  'mm'  'mm'};
 
-[SPM,xSPM] = spm_getSPM(xSPM);
+
+%[SPM,xSPM] = spm_getSPM(xSPM);
 [hreg,xSPM,SPM] = spm_results_ui('Setup',xSPM);
 TabDat = spm_list('List',xSPM,hReg);

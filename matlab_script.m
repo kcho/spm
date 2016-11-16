@@ -13,8 +13,8 @@ preprocDir = '/home/kangik/2016_CHJ/GLP_1/IMG_DATA/dpabi/FunImgARWS';
 %first_level_analysis(subjects, treatment, preprocDir)
 %second_level_analysis(subjects, treatment, Obese, Lean)
 
-contrastList = {'01','02','03','04','05','06','07','08','09','10','11'};
-%contrastList = {'05','06','07','08','09','10','11'};
+%contrastList = {'01','02','03','04','05','06','07','08','09','10','11'};
+contrastList = {'07','08','09','10','11'};
 
 roiDir = '/home/kangik/2016_CHJ/GLP_1/IMG_DATA/ROIs/'
 roiList = {'findlab_lh_DLPFC_thrp_90.nii','findlab_rh_DLPFC_thrp_90.nii','Harvard_lh_accumbens_thrp_70_flirt.nii','Harvard_rh_accumbens_thrp_70_flirt.nii','hypothalamus_10mm_0-10-7.nii','MNI_Amygdala_L.nii','MNI_Amygdala_R.nii','MNI_Caudate_L.nii','MNI_Caudate_R.nii','MNI_Cingulum_Ant_L.nii','MNI_Cingulum_Ant_R.nii','MNI_Frontal_Orb.nii','MNI_Frontal_Orb_L.nii','MNI_Frontal_Orb_R.nii','MNI_Fusiform_L.nii','MNI_Fusiform_R.nii','MNI_Insula_L.nii','MNI_Insula_R.nii','MNI_Putamen_L.nii','MNI_Putamen_R.nii'};
@@ -33,7 +33,7 @@ for contrastNum=1:length(contrastList)
             [hReg, SPM, xSPM] = results(contrast{1}, comparisonNum, ROILoc{1});
             TabDat = spm_list('List',xSPM,hReg);
             if ~isempty(xSPM.XYZ)
-                target_xSPM_loc = sprintf('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/%s_%s_%s_xSPM.mat', contrast{1}, ROI{1}, comparisonNum)
+                target_xSPM_loc = sprintf('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/%s_%s_%d_xSPM.mat', contrast{1}, ROI{1}, comparisonNum)
                 save(target_xSPM_loc, 'xSPM')
                 %extract_mean_values_ROI(SPM, xSPM)
             end

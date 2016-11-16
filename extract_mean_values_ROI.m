@@ -1,7 +1,11 @@
-function extract_mean_values_ROI(SPM, xSPM)
-
+function extract_mean_values_ROI(xSPM)
 ROI = xSPM.XYZ;
 
+spmLoc = sprintf('%s/SPM.mat', xSPM.swd)
+SPM = load(spmLoc)
+SPM = SPM.SPM
+
+SPM
 Obese = {'HMS', 'NSW', 'HJC', 'JHS', 'CSJ', 'CDJ', 'KTH', 'SHJ', 'KDS', 'LJS', 'KHS', 'KYH', 'KYC', 'JJR'};  %KJS removed;
 Lean = {'JTS', 'JJY', 'MAS', 'LKB', 'KJW', 'KOS', 'KTO', 'KSO', 'YSS', 'CDK', 'YOI', 'SJS', 'PJO', 'CDH', 'LKH'};
 

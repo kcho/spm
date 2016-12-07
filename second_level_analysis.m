@@ -1,7 +1,8 @@
 function second_level_analysis(subjects, treatment, Obese, Lean)
 clear matlabbatch
 % Second level analysis
-contList={'01' '02' '03' '04' '05' '06' '07' '08' '09' '10' '11'};
+%contList={'01' '02' '03' '04' '05' '06' '07' '08' '09' '10' '11'};
+contList={'01' '02' '03' '04' '05' '06' '07' '08' '09' '10' '11', '12'};
 for contNum=1:length(contList) %contrast number
     outDir_second = strcat('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/secondLevel/',contList(contNum))
     matlabbatch{1}.spm.stats.factorial_design.dir = outDir_second;

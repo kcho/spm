@@ -142,6 +142,8 @@ for i=1:length(subjects)
         matlabbatch{3}.spm.stats.con.consess{11}.tcon.name = 'baseline > low calorie';
         matlabbatch{3}.spm.stats.con.consess{11}.tcon.weights = [1 0 -1];
         matlabbatch{3}.spm.stats.con.consess{11}.tcon.sessrep = 'none';
+        matlabbatch{3}.spm.stats.con.consess{12}.tcon.name = 'high_low_food < neutral';
+        matlabbatch{3}.spm.stats.con.consess{12}.tcon.weights = [0 -0.5 -0.5 1];
         matlabbatch{3}.spm.stats.con.delete = 0;
 
         outlist = spm_jobman('run', matlabbatch);

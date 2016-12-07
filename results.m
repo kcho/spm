@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-% function xSPM = results(contrast, comparisonNum, ROI)
-function [hReg, SPM, xSPM] = results(contrast, comparisonNum, ROI)
-
-% contrast must be a 'str' eg contrast='01'
-=======
 function [hReg, SPM, xSPM] = results(matFile, comparisonNum, ROI)
 % matFile : SPM.mat from second level analysis
->>>>>>> 710930e66b5366dd615549bda4f5dfc2e925e7a6
 % comparisonNum
 % 1 = group effect
 % 2 = medication effect
@@ -28,17 +21,8 @@ end
 
 clear xSPM 
 clear SPM
-<<<<<<< HEAD
-%spmMat = strcat('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/secondLevel/',contList(contNum),'/SPM.mat')
-matFileName = sprintf('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/secondLevel/%s/SPM.mat', contrast);
-load(matFileName)
-%spm_list('List', xSPM, hReg)
-%spm_list('List',SPM,hReg)
-% xSPM      - structure containing SPM, distribution & filtering details
-=======
 load(matFile)
 
->>>>>>> 710930e66b5366dd615549bda4f5dfc2e925e7a6
 xSPM = SPM;
 try
     xSPM.title    = strcat(comparisonName(comparisonNum), contNameList(str2num(contrast)));
@@ -66,11 +50,6 @@ xSPM.thresDesc = 'FWE';
 %xSPM.roi      = ROI;
 xSPM.units = {'mm'  'mm'  'mm'};
 
-<<<<<<< HEAD
-
 %[SPM,xSPM] = spm_getSPM(xSPM);
 [hReg,xSPM,SPM] = spm_results_ui('Setup',xSPM);
 TabDat = spm_list('List',xSPM,hReg);
-=======
-[hReg,xSPM,SPM] = spm_results_ui('Setup',xSPM);
->>>>>>> 710930e66b5366dd615549bda4f5dfc2e925e7a6

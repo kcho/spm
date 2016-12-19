@@ -23,16 +23,16 @@ for i=1:length(SPM.xY.P)
     startIndex = regexp(subjectFileLoc, '\/(lean|obese)_[A-Z]{1}_[A-Z]{3}\/');
     %startIndex = regexp(subjectFileLoc '[A-Z]');
 
-    if xSPM.Ic ==1
+    if xSPM.Ic == 3
         subjectName = SPM.xY.P{i}(startIndex+9:startIndex+11)
         if any(strcmp(Obese,subjectName))
-            group='Obese'
+
             obese_means = [obese_means averages(i)];
         else
             group='Lean'
             lean_means = [lean_means averages(i)];
         end
-    elseif xSPM.Ic ==2
+    elseif xSPM.Ic == 1
         subjectName = SPM.xY.P{i}(startIndex+1:startIndex+5);
         if any(strcmp(GLP,subjectName))
             group='GLP';

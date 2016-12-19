@@ -20,14 +20,16 @@ saline_means = [];
 
 for i=1:length(SPM.xY.P)
     subjectFileLoc = SPM.xY.P{i};
-    startIndex = regexp(subjectFileLoc, '\/[A-Z]{3}_[A-Z]{1}\/');
+    startIndex = regexp(subjectFileLoc, '\/(lean|obese)_[A-Z]{1}_[A-Z]{3}\/');
+    %startIndex = regexp(subjectFileLoc '[A-Z]');
+
     if xSPM.Ic ==1
-        subjectName = SPM.xY.P{i}(startIndex+1:startIndex+3);
+        subjectName = SPM.xY.P{i}(startIndex+9:startIndex+11)
         if any(strcmp(Obese,subjectName))
-            group='Obese';
+            group='Obese'
             obese_means = [obese_means averages(i)];
         else
-            group='Lean';
+            group='Lean'
             lean_means = [lean_means averages(i)];
         end
     elseif xSPM.Ic ==2
@@ -66,6 +68,6 @@ if xSPM.Ic ==1
 else
     ax.XTickLabel = {'GLP','Saline'};
 end
-ylabel('Percent Signal Change');
+ylabel('Change in beta estimates');
 
-display(xSPM.roi)
+%display(xSPM.roi)

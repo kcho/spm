@@ -23,22 +23,25 @@ for i=1:length(SPM.xY.P)
     startIndex = regexp(subjectFileLoc, '\/(lean|obese)_[A-Z]{1}_[A-Z]{3}\/');
     %startIndex = regexp(subjectFileLoc '[A-Z]');
 
+    % if the comparison in the xSPM is group comparisons
     if xSPM.Ic == 3
-        subjectName = SPM.xY.P{i}(startIndex+9:startIndex+11)
+        subjectName = SPM.xY.P{i}(startIndex+8:startIndex+10);
         if any(strcmp(Obese,subjectName))
-
+            %group='Obese';
             obese_means = [obese_means averages(i)];
         else
-            group='Lean'
+            %group='Lean';
             lean_means = [lean_means averages(i)];
         end
-    elseif xSPM.Ic == 1
-        subjectName = SPM.xY.P{i}(startIndex+1:startIndex+5);
+
+    % if the comparison in the xSPM is medications
+    elseif xSPM.Ic == 2
+        subjectName = SPM.xY.P{i}(startIndex+8:startIndex+10);
         if any(strcmp(GLP,subjectName))
-            group='GLP';
+            %group='GLP';
             GLP_means = [GLP_means averages(i)];
         else
-            group='saline';
+            %group='saline';
             saline_means = [saline_means averages(i)];
         end
     end
@@ -48,7 +51,7 @@ end
 
 figure
 hold on
-if xSPM.Ic == 1
+if xSPM.Ic == 3
     y = [mean(obese_means); mean(lean_means)];
     y_std = [std(obese_means); std(lean_means)];
 else
@@ -63,7 +66,7 @@ errorbar(y,y_std,'.');
 %legend(h,l);
 ax = gca;
 ax.XTick = [1,2];
-if xSPM.Ic ==1
+if xSPM.Ic == 3
     ax.XTickLabel = {'Obese','Lean'};
 else
     ax.XTickLabel = {'GLP','Saline'};

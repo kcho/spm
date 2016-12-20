@@ -1,4 +1,4 @@
-function [hReg, SPM, xSPM] = results(matFile, comparisonNum, ROI)
+function [hReg, SPM, xSPM] = results_FDR(matFile, comparisonNum, ROI)
 % matFile : SPM.mat from second level analysis
 % comparisonNum
 % 1 = group effect
@@ -7,9 +7,7 @@ function [hReg, SPM, xSPM] = results(matFile, comparisonNum, ROI)
 
 %clear 'ROI'
 
-%contNameList = {'high_calorie > low_calorie' 'high calorie > neutral' 'low calorie > neutral' 'high_low_food > neutral' 'low calorie > high calorie' 'neutral > high calorie' 'neutral > low calorie' 'high_calorie > baseline' 'low calorie > baseline' 'baseline > high calorie' 'baseline > low calorie', 'high_low_food < neutral'};
-contNameList = {'high calorie > low calorie', 'high calorie < low calorie', 'high calorie > neutral', 'high calorie < neutral', 'high_low_food > neutral', 'high_low_food < neutral'};
-
+contNameList = {'high_calorie > low_calorie' 'high calorie > neutral' 'low calorie > neutral' 'high_low_food > neutral' 'low calorie > high calorie' 'neutral > high calorie' 'neutral > low calorie' 'high_calorie > baseline' 'low calorie > baseline' 'baseline > high calorie' 'baseline > low calorie', 'high_low_food < neutral'};
 
 comparisonName = {'GE_', 'ME_', 'Int_'};
 
@@ -50,13 +48,10 @@ else
 end
 
 xSPM.k        = 0;
-xSPM.thresDesc = 'FWE';
+xSPM.thresDesc = 'FDR';
 %xSPM.roi      = ROI;
 xSPM.units = {'mm'  'mm'  'mm'};
 
 %[SPM,xSPM] = spm_getSPM(xSPM);
 [hReg,xSPM,SPM] = spm_results_ui('Setup',xSPM);
 TabDat = spm_list('List',xSPM,hReg);
-
-
-

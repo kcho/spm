@@ -1,4 +1,4 @@
-function [hReg, SPM, xSPM] = results(matFile, comparisonNum, ROI)
+function [hReg, SPM, xSPM] = results_uncor(matFile, comparisonNum, pThresh, k, ROI)
 % matFile : SPM.mat from second level analysis
 % comparisonNum
 % 1 = group effect
@@ -42,15 +42,16 @@ xSPM.Ex       = [];
 
 if comparisonNum == 3
     xSPM.STAT = 'F';
-    xSPM.u        = 0.05;
+    xSPM.u        = pThresh;
     %xSPM.u        = 15.8427;
 else
     xSPM.STAT = 'T';
-    xSPM.u        = 0.05;
+    xSPM.u        = pThresh;
 end
 
-xSPM.k        = 0;
-xSPM.thresDesc = 'FWE';
+xSPM.k         = k;
+xSPM.thresDesc = 'none';
+%xSPM.thresDesc = 'FWE';
 %xSPM.roi      = ROI;
 xSPM.units = {'mm'  'mm'  'mm'};
 
@@ -58,5 +59,4 @@ xSPM.units = {'mm'  'mm'  'mm'};
 [hReg,xSPM,SPM] = spm_results_ui('Setup',xSPM);
 TabDat = spm_list('List',xSPM,hReg);
 
-
-
+cd /home/kangik/2016_CHJ/GLP_1/IMG_DATA

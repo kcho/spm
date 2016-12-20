@@ -1,10 +1,17 @@
 %% First level analysis
-function first_level_analysis(subjects, treatment, preprocDir)
+function first_level_analysis(subjects, treatment, preprocDir, Obese, Lean)
 for i=1:length(subjects)
     for j=1:length(treatment)
         preprocData = strcat(preprocDir,'/', subjects(i), '_', treatment(j), '/swra', subjects(i), '_', treatment(j), '.nii')
         display(preprocData)
-        outputDir = strcat('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/firstLevel/', subjects(i), '_', treatment(j))
+
+        if ismember(subjects(i), Obese)
+            group = 'obese';
+        else
+            group = 'lean';
+        end
+
+        outputDir = strcat('/home/kangik/2016_CHJ/GLP_1/IMG_DATA/firstLevel/', group, '_', treatment(j), '_', subjects(i))
 
         matlabbatch{1}.spm.stats.fmri_spec.dir = outputDir;
         matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
@@ -109,41 +116,27 @@ for i=1:length(subjects)
         matlabbatch{2}.spm.stats.fmri_est.method.Classical = 1;
 
         matlabbatch{3}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.', 'val', '{}',{1}), substruct('.','spmmat'));
-        matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'high_calorie > low_calorie';
+
+        % column order
+        % baseline, high_calorie, low_calorie, non-food
+        matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'high calorie > low calorie';
         matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [0 1 -1];
         matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'high calorie > neutral';
-        matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 1 0 -1];
+        matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'high calorie < low calorie';
+        matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 -1 1];
         matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'low calorie > neutral';
-        matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 0 1 -1];
+        matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'high calorie > neutral';
+        matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 1 0 -1];
         matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'high_low_food > neutral';
-        matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 0.5 0.5 -1];
+        matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'high calorie < neutral';
+        matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 -1 0 1];
         matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{5}.tcon.name = 'low calorie > high calorie';
-        matlabbatch{3}.spm.stats.con.consess{5}.tcon.weights = [0 -1 1];
+        matlabbatch{3}.spm.stats.con.consess{5}.tcon.name = 'high_low_food > neutral';
+        matlabbatch{3}.spm.stats.con.consess{5}.tcon.weights = [0 0.5 0.5 -1];
         matlabbatch{3}.spm.stats.con.consess{5}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{6}.tcon.name = 'neutral > high calorie';
-        matlabbatch{3}.spm.stats.con.consess{6}.tcon.weights = [0 -1 0 1];
+        matlabbatch{3}.spm.stats.con.consess{6}.tcon.name = 'high_low_food < neutral';
+        matlabbatch{3}.spm.stats.con.consess{6}.tcon.weights = [0 -0.5 -0.5 1];
         matlabbatch{3}.spm.stats.con.consess{6}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{7}.tcon.name = 'neutral > low calorie';
-        matlabbatch{3}.spm.stats.con.consess{7}.tcon.weights = [0 0 -1 1];
-        matlabbatch{3}.spm.stats.con.consess{7}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{8}.tcon.name = 'high_calorie > baseline';
-        matlabbatch{3}.spm.stats.con.consess{8}.tcon.weights = [-1 1];
-        matlabbatch{3}.spm.stats.con.consess{8}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{9}.tcon.name = 'low calorie > baseline';
-        matlabbatch{3}.spm.stats.con.consess{9}.tcon.weights = [-1 0 1];
-        matlabbatch{3}.spm.stats.con.consess{9}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{10}.tcon.name = 'baseline > high calorie';
-        matlabbatch{3}.spm.stats.con.consess{10}.tcon.weights = [1 -1];
-        matlabbatch{3}.spm.stats.con.consess{10}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{11}.tcon.name = 'baseline > low calorie';
-        matlabbatch{3}.spm.stats.con.consess{11}.tcon.weights = [1 0 -1];
-        matlabbatch{3}.spm.stats.con.consess{11}.tcon.sessrep = 'none';
-        matlabbatch{3}.spm.stats.con.consess{12}.tcon.name = 'high_low_food < neutral';
-        matlabbatch{3}.spm.stats.con.consess{12}.tcon.weights = [0 -0.5 -0.5 1];
         matlabbatch{3}.spm.stats.con.delete = 0;
 
         outlist = spm_jobman('run', matlabbatch);
